@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#05060a" />
+<title>黄语潇 · Shawn Huang — AI 售前解决方案经理</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #05060a;
+    --fg: #e8ebf5;
+    --fg-dim: #9aa0b8;
+    --fg-muted: #5a5f75;
+    --cyan: #5eead4;
+    --violet: #a78bfa;
+    --pink: #f472b6;
+    --line: rgba(255, 255, 255, 0.08);
+    --line-bright: rgba(255, 255, 255, 0.14);
+    --glass: rgba(255, 255, 255, 0.035);
+    --font-display: 'Syne', 'Noto Sans SC', sans-serif;
+    --font-body: 'Outfit', 'Noto Sans SC', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--fg);
+    overflow-x: hidden;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  #particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.85; }
+
+  .glow {
+    position: fixed; width: 500px; height: 500px; border-radius: 50%;
+    pointer-events: none; z-index: 1; transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(94,234,212,0.10) 0%, rgba(167,139,250,0.06) 40%, transparent 70%);
+    filter: blur(30px); opacity: 0; transition: opacity 0.6s ease; will-change: transform;
+  }
+  @media (hover: hover) and (pointer: fine) { .glow { opacity: 1; } }
+
+  .wrap { position: relative; z-index: 3; max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
+    z-index: 100; padding: 8px 10px 8px 16px; border-radius: 100px;
+    background: rgba(10, 12, 20, 0.75);
+    backdrop-filter: blur(16px) saturate(180%); -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid var(--line); display: flex; gap: 4px; align-items: center; font-size: 12px;
+  }
+  nav .brand { font-family: var(--font-display); font-weight: 700; color: var(--fg); padding-right: 12px; margin-right: 4px; border-right: 1px solid var(--line); letter-spacing: 0.02em; }
+  nav a { color: var(--fg-dim); text-decoration: none; padding: 6px 10px; border-radius: 100px; transition: color 0.2s, background 0.2s; }
+  nav a:hover, nav a:active { color: var(--cyan); background: var(--glass); }
+  nav .cta-mini { background: var(--cyan); color: var(--bg); font-weight: 600; padding: 6px 14px; margin-left: 4px; }
+  nav .cta-mini:hover { background: var(--violet); color: var(--bg); }
+
+  /* HERO */
+  .hero { min-height: 100svh; display: flex; flex-direction: column; justify-content: center; padding: 96px 0 56px; }
+  .status {
+    display: inline-flex; align-items: center; gap: 8px; padding: 5px 12px;
+    border: 1px solid var(--line); border-radius: 100px; background: var(--glass);
+    font-family: var(--font-mono); font-size: 10px; color: var(--cyan);
+    letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 24px; width: fit-content;
+  }
+  .status::before { content: ''; width: 6px; height: 6px; background: var(--cyan); border-radius: 50%; box-shadow: 0 0 10px var(--cyan); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  .hero h1 { font-family: var(--font-display); font-size: clamp(48px, 13vw, 120px); font-weight: 700; line-height: 0.92; letter-spacing: -0.035em; margin-bottom: 8px; }
+  .gradient {
+    background: linear-gradient(110deg, #5eead4 0%, #a78bfa 45%, #f472b6 85%);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    background-size: 200% auto; animation: shimmer 10s linear infinite;
+  }
+  @keyframes shimmer { to { background-position: 200% center; } }
+
+  .hero-cn { font-family: var(--font-display); font-size: clamp(26px, 6vw, 48px); font-weight: 500; color: var(--fg); opacity: 0.35; letter-spacing: 0.05em; line-height: 1; margin-bottom: 24px; }
+  .hero-role { font-size: clamp(15px, 2.4vw, 18px); color: var(--fg); font-weight: 400; margin-bottom: 10px; }
+  .hero-role .sep { color: var(--fg-muted); margin: 0 8px; }
+  .hero-tagline { font-size: clamp(14px, 2vw, 16px); color: var(--fg-dim); max-width: 520px; margin-bottom: 28px; line-height: 1.6; }
+
+  .contact-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 8px; padding: 9px 14px;
+    border-radius: 100px; border: 1px solid var(--line); background: var(--glass);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    color: var(--fg); text-decoration: none; font-size: 12px; font-family: var(--font-mono);
+    transition: border-color 0.3s, color 0.3s, transform 0.3s;
+  }
+  .pill:hover, .pill:active { border-color: var(--cyan); color: var(--cyan); transform: translateY(-1px); }
+  .pill svg { width: 13px; height: 13px; flex-shrink: 0; }
+  .pill.primary { background: var(--cyan); color: var(--bg); border-color: var(--cyan); font-weight: 600; }
+  .pill.primary:hover { background: var(--violet); border-color: var(--violet); color: var(--bg); }
+
+  /* STATS */
+  .stats {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+    background: var(--line); border: 1px solid var(--line); border-radius: 16px;
+    overflow: hidden; margin: 48px 0 0;
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  }
+  .stat { padding: 20px 16px; background: rgba(10, 12, 20, 0.6); text-align: center; }
+  .stat .num { font-family: var(--font-display); font-size: clamp(24px, 4.5vw, 36px); font-weight: 700; letter-spacing: -0.02em; line-height: 1; margin-bottom: 6px; }
+  .stat .num.c { color: var(--cyan); }
+  .stat .num.v { color: var(--violet); }
+  .stat .num.p { color: var(--pink); }
+  .stat .label { font-family: var(--font-mono); font-size: 10px; color: var(--fg-dim); letter-spacing: 0.08em; text-transform: uppercase; }
+
+  /* SECTIONS */
+  section { padding: 80px 0 16px; }
+  .sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 28px; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+  .sec-head h2 { font-family: var(--font-display); font-size: clamp(22px, 3.5vw, 30px); font-weight: 600; letter-spacing: -0.02em; }
+  .sec-head .idx { font-family: var(--font-mono); font-size: 11px; color: var(--fg-muted); letter-spacing: 0.15em; }
+
+  /* CARD */
+  .card {
+    padding: 24px; border-radius: 16px; background: var(--glass);
+    backdrop-filter: blur(16px) saturate(150%); -webkit-backdrop-filter: blur(16px) saturate(150%);
+    border: 1px solid var(--line); transition: border-color 0.3s, background 0.3s;
+  }
+  .card:hover { border-color: var(--line-bright); background: rgba(255, 255, 255, 0.05); }
+
+  /* EXP */
+  .exp-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; flex-wrap: wrap; margin-bottom: 16px; }
+  .exp-company { font-family: var(--font-display); font-size: clamp(18px, 2.6vw, 22px); font-weight: 600; letter-spacing: -0.01em; }
+  .exp-role { color: var(--cyan); font-size: 13px; font-family: var(--font-mono); margin-top: 4px; }
+  .exp-date { font-family: var(--font-mono); font-size: 11px; color: var(--fg-muted); padding: 4px 10px; border: 1px solid var(--line); border-radius: 100px; white-space: nowrap; }
+  .exp-list { list-style: none; display: grid; gap: 10px; }
+  .exp-list li { color: var(--fg-dim); font-size: 14px; padding-left: 18px; position: relative; line-height: 1.6; }
+  .exp-list li::before { content: ''; position: absolute; left: 0; top: 9px; width: 8px; height: 1px; background: var(--cyan); }
+  .exp-list li strong { color: var(--fg); font-weight: 500; }
+  .exp-minor { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 14px 20px; margin-top: 12px; border-radius: 12px; border: 1px dashed var(--line); font-size: 13px; color: var(--fg-dim); flex-wrap: wrap; }
+  .exp-minor b { color: var(--fg); font-weight: 500; font-family: var(--font-display); }
+
+  /* CLIENTS */
+  .clients { margin-bottom: 20px; padding: 14px 20px; border-radius: 12px; background: var(--glass); border: 1px solid var(--line); font-size: 13px; color: var(--fg-dim); line-height: 1.7; }
+  .clients .k { font-family: var(--font-mono); font-size: 10px; color: var(--cyan); letter-spacing: 0.12em; text-transform: uppercase; margin-right: 10px; }
+  .clients b { color: var(--fg); font-weight: 500; }
+
+  /* PROJECTS */
+  .projects { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .proj { padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+  .proj h3 { font-family: var(--font-display); font-size: 16px; font-weight: 600; line-height: 1.3; }
+  .proj p { color: var(--fg-dim); font-size: 13px; line-height: 1.55; flex: 1; }
+  .proj .metric { color: var(--cyan); font-weight: 600; }
+  .tags { display: flex; flex-wrap: wrap; gap: 5px; }
+  .tag { font-family: var(--font-mono); font-size: 10px; padding: 3px 8px; border-radius: 6px; background: rgba(94, 234, 212, 0.08); color: var(--cyan); border: 1px solid rgba(94, 234, 212, 0.2); }
+  .tag.v { background: rgba(167, 139, 250, 0.08); color: var(--violet); border-color: rgba(167, 139, 250, 0.2); }
+  .tag.p { background: rgba(244, 114, 182, 0.08); color: var(--pink); border-color: rgba(244, 114, 182, 0.2); }
+
+  /* SKILLS */
+  .skills { display: grid; gap: 12px; }
+  .skill-row { display: grid; grid-template-columns: 140px 1fr; gap: 20px; align-items: center; padding: 14px 20px; border-radius: 12px; background: var(--glass); border: 1px solid var(--line); }
+  .skill-row .k { font-family: var(--font-display); font-size: 14px; font-weight: 600; color: var(--fg); display: flex; align-items: center; gap: 8px; }
+  .skill-row .k::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
+  .skill-row:nth-child(2) .k::before { background: var(--violet); box-shadow: 0 0 8px var(--violet); }
+  .skill-row:nth-child(3) .k::before { background: var(--pink); box-shadow: 0 0 8px var(--pink); }
+  .skill-row:nth-child(4) .k::before { background: #fbbf24; box-shadow: 0 0 8px #fbbf24; }
+  .skill-row .v { font-size: 13px; color: var(--fg-dim); line-height: 1.5; }
+  .skill-row .v b { color: var(--fg); font-weight: 500; }
+
+  /* EDU */
+  .edu { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .edu-item { padding: 16px 20px; border-radius: 12px; background: var(--glass); border: 1px solid var(--line); }
+  .edu-item .sch { font-family: var(--font-display); font-weight: 600; font-size: 15px; margin-bottom: 4px; }
+  .edu-item .deg { font-size: 12px; color: var(--cyan); font-family: var(--font-mono); margin-bottom: 6px; }
+  .edu-item .yr { font-size: 11px; color: var(--fg-muted); font-family: var(--font-mono); letter-spacing: 0.05em; }
+
+  /* FOOT */
+  .foot { margin-top: 80px; padding: 48px 0 40px; text-align: center; border-top: 1px solid var(--line); }
+  .foot-title { font-family: var(--font-display); font-size: clamp(32px, 7vw, 56px); font-weight: 700; letter-spacing: -0.03em; line-height: 1; margin-bottom: 12px; }
+  .foot-sub { color: var(--fg-dim); font-size: 14px; margin-bottom: 28px; }
+  .foot-cta { display: inline-flex; align-items: center; gap: 10px; padding: 14px 28px; border-radius: 100px; background: linear-gradient(110deg, var(--cyan), var(--violet)); color: var(--bg); font-weight: 600; font-size: 14px; text-decoration: none; transition: transform 0.3s, box-shadow 0.3s; }
+  .foot-cta:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(94, 234, 212, 0.28); }
+  .foot-meta { margin-top: 32px; font-family: var(--font-mono); font-size: 10px; color: var(--fg-muted); letter-spacing: 0.08em; }
+
+  /* REVEAL */
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+
+  /* HERO INTRO */
+  .hero > * { opacity: 0; transform: translateY(20px); animation: rise 0.8s ease forwards; }
+  .hero > *:nth-child(1) { animation-delay: 0.1s; }
+  .hero > *:nth-child(2) { animation-delay: 0.2s; }
+  .hero > *:nth-child(3) { animation-delay: 0.3s; }
+  .hero > *:nth-child(4) { animation-delay: 0.4s; }
+  .hero > *:nth-child(5) { animation-delay: 0.5s; }
+  .hero > *:nth-child(6) { animation-delay: 0.6s; }
+  .hero > *:nth-child(7) { animation-delay: 0.7s; }
+  @keyframes rise { to { opacity: 1; transform: translateY(0); } }
+
+  /* MOBILE */
+  @media (max-width: 720px) {
+    .wrap { padding: 0 18px; }
+    nav { top: 12px; padding: 6px 8px 6px 14px; font-size: 11px; }
+    nav .brand { padding-right: 10px; margin-right: 2px; }
+    nav a { padding: 5px 8px; }
+    nav .links { display: none; }
+    .hero { padding: 84px 0 40px; min-height: auto; }
+    .stats { grid-template-columns: repeat(2, 1fr); margin-top: 32px; }
+    .stat { padding: 16px 12px; }
+    section { padding: 56px 0 8px; }
+    .card { padding: 20px; }
+    .exp-list li { font-size: 13.5px; }
+    .projects { grid-template-columns: 1fr; }
+    .edu { grid-template-columns: 1fr; }
+    .skill-row { grid-template-columns: 1fr; gap: 6px; padding: 14px 18px; }
+    .skill-row .k { font-size: 13px; }
+    .skill-row .v { font-size: 12.5px; }
+    .foot { margin-top: 56px; padding: 36px 0 32px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    #particles { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+<div class="glow" id="glow"></div>
+
+<nav>
+  <span class="brand">S.H.</span>
+  <span class="links" style="display:contents">
+    <a href="#experience">Work</a>
+    <a href="#projects">Projects</a>
+    <a href="#skills">Skills</a>
+  </span>
+  <a href="mailto:shawn.huangyx@gmail.com" class="cta-mini">Contact</a>
+</nav>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="status">Open to Work · AI Pre-Sales</div>
+    <h1><span class="gradient">Shawn Huang</span></h1>
+    <div class="hero-cn">黄 语 潇</div>
+    <div class="hero-role">AI 售前解决方案经理 <span class="sep">·</span> 前 UMU <span class="sep">·</span> PMP</div>
+    <p class="hero-tagline">
+      2 年 AI 售前经验，主导 8+ 世界 500 强客户交付。擅长把 LLM、Prompt 工程与 SaaS 集成翻译成客户能决策的业务价值。
+    </p>
+    <div class="contact-row">
+      <a class="pill primary" href="mailto:shawn.huangyx@gmail.com">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+        Email Me
+      </a>
+      <a class="pill" href="tel:+8618519373704">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        +86 185-1937-3704
+      </a>
+      <a class="pill" href="https://github.com/ShawnHuangyux" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.9 1.2 1.9 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.7 1.6.2 2.8 0 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3Z"/></svg>
+        GitHub
+      </a>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="num c">2<span style="font-size:0.6em">yrs+</span></div><div class="label">AI Pre-Sales</div></div>
+      <div class="stat"><div class="num v">8<span style="font-size:0.6em">+</span></div><div class="label">500强客户</div></div>
+      <div class="stat"><div class="num p">30<span style="font-size:0.6em">%</span></div><div class="label">合规效率提升</div></div>
+      <div class="stat"><div class="num" style="color:#fbbf24">PMP</div><div class="label">+ 中英双语</div></div>
+    </div>
+  </header>
+
+  <section id="experience">
+    <div class="sec-head reveal">
+      <h2>Work Experience</h2>
+      <span class="idx">01 / 工作经历</span>
+    </div>
+
+    <div class="card reveal">
+      <div class="exp-head">
+        <div>
+          <div class="exp-company">北京优幕科技 · UMU</div>
+          <div class="exp-role">AI 售前解决方案支持</div>
+        </div>
+        <div class="exp-date">OCT 2023 — JUL 2025</div>
+      </div>
+      <ul class="exp-list">
+        <li><strong>跨国项目主导：</strong>协调日/中及全球销售与产研团队，推动 AI 平台、企业级 SaaS 与行业定制系统按时按质交付。</li>
+        <li><strong>方案设计与宣讲：</strong>独立撰写解决方案书、主导客户宣讲，结合 LLM 落地案例引导客户形成采购意向。</li>
+        <li><strong>AI 能力交付：</strong>全流程管理模型嵌入、Prompt 工程场景设计、功能测试上线，构建数据反馈闭环。</li>
+        <li><strong>运营沉淀：</strong>评估 AI 工具在客户场景中的 ROI，沉淀可复用的售前与交付方法论框架。</li>
+      </ul>
+      <div class="exp-minor">
+        <span><b>北京经纬恒润科技</b> · 嵌入式软件工程师 · Autosar / PHM / C++</span>
+        <span style="font-family:var(--font-mono);font-size:11px;color:var(--fg-muted)">JAN 2023 — MAY 2023</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="sec-head reveal">
+      <h2>Selected Projects</h2>
+      <span class="idx">02 / 代表项目</span>
+    </div>
+
+    <div class="clients reveal">
+      <span class="k">Clients</span>
+      服务客户包括 <b>美的</b> · <b>霸王茶姬</b> · <b>Bayer</b> · <b>Santen</b> · <b>Lilly</b> · <b>Novartis</b> · <b>诺和诺德</b> · <b>美赞臣</b>
+    </div>
+
+    <div class="projects">
+      <div class="card proj reveal">
+        <h3>企业 AI 知识问答与流程优化</h3>
+        <p>基于 LLM 与 Prompt 工程设计端到端方案，<span class="metric">主导宣讲并推动客户签约</span>。</p>
+        <div class="tags"><span class="tag">LLM</span><span class="tag v">RAG</span><span class="tag p">Enterprise</span></div>
+      </div>
+
+      <div class="card proj reveal">
+        <h3>信息安全审计 · ISO 27001</h3>
+        <p>AI 辅助文档归档与审查建议生成，<span class="metric">合规文档准备效率 +30%</span>。</p>
+        <div class="tags"><span class="tag">ISO 27001</span><span class="tag v">Audit</span></div>
+      </div>
+
+      <div class="card proj reveal">
+        <h3>AI 辅助 SSO 系统建设</h3>
+        <p>引入流程自动化工具生成链接规则文档，<span class="metric">显著提升集成效率</span>。</p>
+        <div class="tags"><span class="tag">SSO</span><span class="tag v">Automation</span></div>
+      </div>
+
+      <div class="card proj reveal">
+        <h3>国际客户合规问卷响应</h3>
+        <p>结构化 Prompt 模板快速响应安全问卷，<span class="metric">提升交付效率与答复一致性</span>。</p>
+        <div class="tags"><span class="tag">Prompt Eng.</span><span class="tag v">Security</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="sec-head reveal">
+      <h2>Skills</h2>
+      <span class="idx">03 / 能力矩阵</span>
+    </div>
+
+    <div class="skills">
+      <div class="skill-row reveal">
+        <div class="k">售前 &amp; 方案</div>
+        <div class="v">客户需求分析 · 应用场景挖掘 · <b>B 端采购决策流程</b> · 关键干系人管理</div>
+      </div>
+      <div class="skill-row reveal">
+        <div class="k">沟通 &amp; 表达</div>
+        <div class="v"><b>中英双语</b>演讲与汇报 · 客户视角技术价值传达 · Demo 演示</div>
+      </div>
+      <div class="skill-row reveal">
+        <div class="k">项目管理</div>
+        <div class="v"><b>PMP 认证</b> · 敏捷方法论 · Jira · Asana · Notion</div>
+      </div>
+      <div class="skill-row reveal">
+        <div class="k">技术 &amp; AI</div>
+        <div class="v">Python · C++ · SQL · <b>LLM / RAG / Prompt Engineering</b> · ChatGPT · Notion AI</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="education">
+    <div class="sec-head reveal">
+      <h2>Education</h2>
+      <span class="idx">04 / 教育背景</span>
+    </div>
+    <div class="edu">
+      <div class="edu-item reveal">
+        <div class="sch">University of Leeds</div>
+        <div class="deg">MSc Advanced Computer Science</div>
+        <div class="yr">SEP 2021 — NOV 2022 · UK</div>
+      </div>
+      <div class="edu-item reveal">
+        <div class="sch">Oregon State University</div>
+        <div class="deg">BS Computer Science · AI Track</div>
+        <div class="yr">SEP 2016 — AUG 2020 · US</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="foot">
+    <h2 class="foot-title reveal">Let's <span class="gradient">build.</span></h2>
+    <p class="foot-sub reveal">寻找一位既懂 AI 技术栈、又能直面客户的售前伙伴？</p>
+    <a href="mailto:shawn.huangyx@gmail.com" class="foot-cta reveal">
+      <span>Get in touch</span><span>→</span>
+    </a>
+    <div class="foot-meta">© 2026 SHAWN HUANG · SHAWN.HUANGYX@GMAIL.COM</div>
+  </div>
+
+</div>
+
+<script>
+  // Lightweight particles
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+  let w, h, particles = [];
+  const isMobile = window.matchMedia('(max-width: 720px)').matches;
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+  function resize() {
+    w = canvas.width = window.innerWidth * dpr;
+    h = canvas.height = window.innerHeight * dpr;
+    canvas.style.width = window.innerWidth + 'px';
+    canvas.style.height = window.innerHeight + 'px';
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.scale(dpr, dpr);
+  }
+  resize();
+
+  class P {
+    constructor() {
+      this.x = Math.random() * window.innerWidth;
+      this.y = Math.random() * window.innerHeight;
+      this.vx = (Math.random() - 0.5) * 0.25;
+      this.vy = (Math.random() - 0.5) * 0.25;
+      this.r = Math.random() * 1.2 + 0.4;
+      const palette = [[94, 234, 212], [167, 139, 250], [244, 114, 182]];
+      this.c = palette[Math.floor(Math.random() * 3)];
+    }
+    step() {
+      this.x += this.vx; this.y += this.vy;
+      if (this.x < 0 || this.x > window.innerWidth) this.vx *= -1;
+      if (this.y < 0 || this.y > window.innerHeight) this.vy *= -1;
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(' + this.c[0] + ',' + this.c[1] + ',' + this.c[2] + ',0.65)';
+      ctx.fill();
+    }
+  }
+
+  function init() {
+    particles = [];
+    const density = isMobile ? 26000 : 16000;
+    const count = Math.min(Math.floor((window.innerWidth * window.innerHeight) / density), isMobile ? 40 : 90);
+    for (let i = 0; i < count; i++) particles.push(new P());
+  }
+  init();
+
+  function connect() {
+    const maxDist = isMobile ? 100 : 130;
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const d = Math.sqrt(dx * dx + dy * dy);
+        if (d < maxDist) {
+          const op = (1 - d / maxDist) * 0.22;
+          const c = particles[i].c;
+          ctx.strokeStyle = 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + op + ')';
+          ctx.lineWidth = 0.5;
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  function loop() {
+    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    particles.forEach(p => { p.step(); p.draw(); });
+    connect();
+    requestAnimationFrame(loop);
+  }
+  loop();
+
+  window.addEventListener('resize', () => { resize(); init(); });
+
+  // Mouse glow on desktop only
+  if (window.matchMedia('(hover: hover)').matches) {
+    const glow = document.getElementById('glow');
+    let mx = 0, my = 0, gx = 0, gy = 0;
+    window.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    (function follow() {
+      gx += (mx - gx) * 0.1;
+      gy += (my - gy) * 0.1;
+      glow.style.transform = 'translate(' + gx + 'px, ' + gy + 'px) translate(-50%, -50%)';
+      requestAnimationFrame(follow);
+    })();
+  }
+
+  // Scroll reveal
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
